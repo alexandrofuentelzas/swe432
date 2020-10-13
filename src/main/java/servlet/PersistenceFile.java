@@ -20,7 +20,7 @@ import javax.servlet.annotation.WebServlet;
 
 @WebServlet(name = "PersistenceFile", urlPatterns = {"/file"})
 public class PersistenceFile extends HttpServlet{
-  static enum Data {AGE, NAME};
+  static enum Data {AGE, NAME, GENDER};
   static String RESOURCE_FILE = "entries.txt";
   static final String VALUE_SEPARATOR = ";";
 
@@ -45,11 +45,16 @@ public class PersistenceFile extends HttpServlet{
   {
      String name = request.getParameter(Data.NAME.name());
      String age = request.getParameter(Data.AGE.name());
+     String gender = request.getParameter(Data.GENDER.name());
 
      String error = "";
      if(name == null){
        error= "<li>Name is required</li>";
        name = "";
+     }
+     if(gender == null){//added gender
+       error= "<li>Gender is required</li>";
+       gender = "";
      }
 
      if(age == null){
@@ -79,7 +84,7 @@ public class PersistenceFile extends HttpServlet{
      if (error.length() == 0){
        PrintWriter entriesPrintWriter =
           new PrintWriter(new FileWriter(RESOURCE_FILE, true), true);
-       entriesPrintWriter.println(name+VALUE_SEPARATOR+age);
+       entriesPrintWriter.println(name+VALUE_SEPARATOR+age+VALUE_SEPARATOR+gender); //added gender
        entriesPrintWriter.close();
 
        printHead(out);
@@ -87,7 +92,7 @@ public class PersistenceFile extends HttpServlet{
        printTail(out);
      }else{
        printHead(out);
-       printBody(out, name, age, error);
+       printBody(out, name, age, gender, error); //added gender
        printTail(out);
      }
   }
@@ -102,7 +107,7 @@ public class PersistenceFile extends HttpServlet{
      response.setContentType("text/html");
      PrintWriter out = response.getWriter();
      printHead(out);
-     printBody(out, "", "", "");
+     printBody(out, "", "", "", ""); //added additional empty string for gender
      printTail(out);
   }
 
@@ -128,7 +133,7 @@ public class PersistenceFile extends HttpServlet{
    *  Prints the <BODY> of the HTML page
   ********************************************************* */
   private void printBody (
-    PrintWriter out, String name, String age, String error){
+    PrintWriter out, String name, String age, String gender, String error){
      out.println("<body onLoad=\"setFocus()\">");
      out.println("<p>");
      out.println(
@@ -159,6 +164,11 @@ public class PersistenceFile extends HttpServlet{
       +"\" oninput=\"this.value=this.value.replace(/[^0-9]/g,'');\" value=\""
       +age+"\" size=3 required></td>");
      out.println("  </tr>");
+     out.println("  <tr>");//start of gender tag
+     out.println("   <td>Gender:</td>");
+     out.println("   <td><input type=\"text\" name=\""+Data.GENDER.name()
+      +"\" value=\""+gender+"\" size=30 required></td>");
+     out.println("  </tr>");//end of gender tag
      out.println(" </table>");
      out.println(" <br>");
      out.println(" <br>");
