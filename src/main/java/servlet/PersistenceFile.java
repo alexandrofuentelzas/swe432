@@ -196,6 +196,7 @@ public class PersistenceFile extends HttpServlet{
         out.println("  <tr>");
         out.println("   <th>Name</th>");
         out.println("   <th>Age</th>");
+        out.println("   <th>Gender</th>");
         out.println("  </tr>");
         File file = new File(resourcePath);
         if(!file.exists()){
