@@ -26,7 +26,6 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 
    if (remove != null && remove.equals("on"))
    {
-      session.invalidate();
       session.removeAttribute(name);
       session.removeAttribute(gender);
    }
