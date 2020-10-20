@@ -19,20 +19,24 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
    HttpSession session = request.getSession();
 
    String name   = request.getParameter("attrib_name");
-   String age    = request.getParameter("attrib_age");
    String value  = request.getParameter("attrib_value");
+   String gender = request.getParameter("attrib_gender");
+   String gvalue  = request.getParameter("attrib_gvalue");
    String remove = request.getParameter("attrib_remove");
 
    if (remove != null && remove.equals("on"))
    {
+      session.invalidate();
       session.removeAttribute(name);
+      session.removeAttribute(gender);
    }
    else
    {
-      if ((name != null && name.length() > 0) && (value != null && value.length() > 0) &&  (age != null && value.length() > 0) )
+      if ((name != null && name.length() > 0) && (value != null && value.length() > 0) &&  
+          (gender != null && gender.length() > 0) && (gvalue != null && gvalue.length() > 0) )
       {
          session.setAttribute(name, value);
-         session.setAttribute(name+"age", age);
+         session.setAttribute(gender, gvalue);
       }
 
    }
@@ -59,12 +63,15 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
    out.println(" Name: ");
    out.println(" <input type=\"text\" size=\"10\" name=\"attrib_name\">");
 
-   out.println(" Age: ");
-   out.println(" <input type=\"text\" size=\"3\" name=\"attrib_age\">");
-
    out.println(" Value: ");
    out.println(" <input type=\"text\" size=\"10\" name=\"attrib_value\">");
+   
+   out.println(" Gender: ");
+   out.println(" <input type=\"text\" size=\"3\" name=\"attrib_gender\">");
 
+   out.println(" Value: ");
+   out.println(" <input type=\"text\" size=\"10\" name=\"attrib_gvalue\">");
+   
    out.println(" <br><input type=\"checkbox\" name=\"attrib_remove\">Remove");
    out.println(" <input type=\"submit\" name=\"update\" value=\"Update\">");
    out.println("</form>");
@@ -72,18 +79,25 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
 
    out.println("Attributes in this session:");
    Enumeration e = session.getAttributeNames();
+   int count = 0;
    while (e.hasMoreElements())
    {
       String att_name  = (String) e.nextElement();
-      String att_age   = (String) session.getAttribute(att_name+"age");
       String att_value = (String) session.getAttribute(att_name);
-
+      
+      if(count == 0){
       out.print  ("<br><b>Name:</b> ");
       out.println(att_name);
-      out.print  ("<br><b>Age:</b> ");
-      out.println(att_age);
       out.print  ("<br><b>Value:</b> ");
       out.println(att_value);
+      count++;
+      }
+      else{
+      out.print  ("<br><b>Gender:</b> ");
+      out.println(att_name);
+      out.print  ("<br><b>Value:</b> ");
+      out.println(att_value);
+      }
    } //end while
 
    out.println("</body>");
