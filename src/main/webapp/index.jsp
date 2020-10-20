@@ -18,6 +18,7 @@
 <button onclick="window.location.assign(servletURL+'/echo');">Echo POST requests servlet </button>
 <button onclick="window.location.assign(servletURL+'/twoButtons');">Form submitting servlet </button>
 <button onclick="window.location.assign(servletURL+'/file');">File persistence servlet </button>
+<button onclick="window.location.assign(servletURL+'/attribute');">Attribute Servlet </button>
 <button onclick="window.location.assign(servletURL+'/json');">JSON File persistence servlet </button>
 <button onclick="window.location.assign(servletURL+'/xml');">XML File persistence servlet </button>
 <button onclick="window.location.assign(servletURL+'/database');">Database persistence servlet </button>
