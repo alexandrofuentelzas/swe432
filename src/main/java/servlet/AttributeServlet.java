@@ -19,6 +19,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
    HttpSession session = request.getSession();
 
    String name   = request.getParameter("attrib_name");
+   String age    = request.getParameter("attrib_age");
    String value  = request.getParameter("attrib_value");
    String remove = request.getParameter("attrib_remove");
 
@@ -28,7 +29,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
    }
    else
    {
-      if ((name != null && name.length() > 0) && (value != null && value.length() > 0))
+      if ((name != null && name.length() > 0) && (value != null && value.length() > 0) &&  (age != null && value.length() > 0) )
       {
          session.setAttribute(name, value);
       }
@@ -49,7 +50,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
    out.println("<body>");
    out.println("<h1><center>Session attributes</center></h1>");
 
-   out.println("Enter name and value of an attribute");
+   out.println("Enter name, age, and value of an attribute");
 
 
    String url = response.encodeURL("attribute");
@@ -58,7 +59,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
    out.println(" <input type=\"text\" size=\"10\" name=\"attrib_name\">");
 
    out.println(" Age: ");
-   out.println(" <input type=\"text\" size=\"2\" name=\"attrib_age\">");
+   out.println(" <input type=\"text\" size=\"3\" name=\"attrib_age\">");
 
    out.println(" Value: ");
    out.println(" <input type=\"text\" size=\"10\" name=\"attrib_value\">");
@@ -73,7 +74,7 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
    while (e.hasMoreElements())
    {
       String att_name  = (String) e.nextElement();
-      String att_age = (String) session.getAttribute(att_name);
+      String att_age   = (String) session.getAttribute(att_name);
       String att_value = (String) session.getAttribute(att_age);
 
       out.print  ("<br><b>Name:</b> ");
