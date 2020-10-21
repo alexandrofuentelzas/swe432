@@ -15,6 +15,39 @@ public class AttributeServlet extends HttpServlet
 public void doGet (HttpServletRequest request, HttpServletResponse response)
        throws ServletException, IOException
 {
+    
+
+   String url = response.encodeURL("attribute");
+   String action = request.getParameter("action");
+
+   if( action != null && action.equals("invalidate")){
+       // Called from the invalidate button, kill the session.
+      // Get session object
+      HttpSession session = request.getSession();
+      session.invalidate();
+
+      response.setContentType("text/html");
+      PrintWriter out = response.getWriter();
+
+      out.println("<html>");
+      out.println("<head>");
+      out.println(" <title>Session Invalidation Page</title>");
+      out.println("</head>");
+      out.println("");
+      out.println("<body>");
+
+      out.println("<p>Your session has been invalidated.</P>");
+
+      // Create a link so the user can create a new session.
+      // The link will have a parameter builtin
+      out.println("<a href=\"" + url + "?action=newSession\">");
+      out.println("Create new session</A>");
+
+      out.println("</body>");
+      out.println("</html>");
+      out.close();
+   }else{
+
    // Get session object
    HttpSession session = request.getSession();
 
@@ -57,7 +90,6 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
    out.println("Enter name, age, and value of an attribute");
 
 
-   String url = response.encodeURL("attribute");
    out.println("<form action=\"" + url + "\" method=\"GET\">");
    out.println(" Name: ");
    out.println(" <input type=\"text\" size=\"10\" name=\"attrib_name\">");
@@ -99,8 +131,12 @@ public void doGet (HttpServletRequest request, HttpServletResponse response)
       }
    } //end while
 
+   out.print  ("<br><br><a href=\"" + url + "?action=invalidate\">");
+   out.println("Invalidate the session</a>");
+
    out.println("</body>");
    out.println("</html>");
    out.close();
+   }
 } // End doGet
 } //End  SessionLifeCycle
